@@ -22,7 +22,7 @@
 
 - **Airtable** - Contact Management.
 - **Make.com** - Workflow automation.
-- **Sendgrid** - Email delivery engine.
+- **Gmail** - Email delivery engine.
 - **Webhook** - Handling unsubscribe and other requests.
 - **APIs** - Integrating external tools and services.
 
@@ -41,7 +41,7 @@
 
 ### 2. **Mail Server Configuration:**
    - Scheduula can use **AWS SES**, **Sendgrid**, **Mailgun**, or even **custom SMTP servers**.
-   - The current version is configured with **Sendgrid** for flexible and reliable delivery.
+   - The current version is configured with **Gmail** for demonstration.
    
 ### 3. **Email Scheduling:**
    - Each contact is assigned a due date for emails in a sequence (e.g., Email 1 due on 01/01/2024, Email 2 due 2 hours after Email 1).
@@ -73,28 +73,23 @@ Here is the **Make.com** workflow that powers the email scheduling system:
 ### **Step-by-Step Workflow Documentation:**
 
 
-1. **Trigger Webhook (Module 51)**
+1. **Trigger Webhook**
    - This workflow starts with a **webhook trigger** from Make.com.
-   - The webhook listens for contact actions (e.g., a new contact added or email interaction).
-   - Configuration:
-     - **Hook**: Custom webhook URL.
-     - **Maximum results**: 1 (to limit results to a single contact).
+   - The webhook listens for contact status (e.g., email-1 is due).
 
 
 2. **Fetch Contact from Airtable (Module 52)**
    - After receiving a webhook event, the next step is fetching the corresponding **contact record** from Airtable.
    - Configuration:
-     - **Base**: Contact List 1 (Scheduula).
-     - **Table**: Chiropractors in UK (Google scraped @gmail.com).
-     - The contact record is retrieved using the ID passed from the webhook.
+     - Base, Table, and record ID.
 
 
-3. **Email Routing (Router Module 3)**
+3. **Email Routing**
    - The workflow branches out based on the **email schedule** for the contact.
    - This **router** checks which email (e.g., Email 1, Email 2) is due for the specific contact, based on the due date stored in Airtable.
 
 
-4. **Send Email 1 (Module 2)**
+4. **Send Email 1**
    - If the **Email 1 schedule** matches the current date, an email is sent to the contact.
    - Configuration:
      - **To**: Contact's email.
